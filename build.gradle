@@ -15,6 +15,7 @@ base {
 
 def include_create = false
 def include_redstone_pen = false
+def include_candlelight = true;
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -83,7 +84,7 @@ minecraft {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
 
-            if (include_create) {
+            if (include_create || include_candlelight) {
                 property 'mixin.env.remapRefMap', 'true'
                 property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             }
@@ -170,6 +171,12 @@ dependencies {
     implementation fg.deobf('curse.maven:jei-238222:4593536')
     implementation fg.deobf('curse.maven:theoneprobe-245211:4579432')
     //implementation fg.deobf('curse.maven:jade-324717:3824831')
+
+    if (include_candlelight) {
+        implementation fg.deobf("curse.maven:lets-do-candlelight-846962:4651958")
+        implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
+        implementation fg.deobf("curse.maven:do-api-864599:4651810")
+    }
 
     if (include_redstone_pen)
         implementation fg.deobf('curse.maven:redstonepen-461710:4293320')
